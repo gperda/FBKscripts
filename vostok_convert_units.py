@@ -16,14 +16,17 @@ def read_csv_file(filename):
 	return data
 
 def main():
-	path = r'C:\Users\admin\Desktop\GRAZ\VOSTOK\klima-daily_20220101T0000_20230101T0000.csv'
-	out = path.replace('.csv', 'whm2.csv')
-	input = read_csv_file(path)
+	input_path = sys.argv[1]
+	out = input_path.replace('.csv', 'whm2.csv')
+	input = read_csv_file(input_path)
 	
 	with open(out, 'w') as f:
-		print("time,station,solar_radiation", file=f)
+		print("date_and_time,solar_radiation[wh/m2]", file=f)
 		for row in input:
-			print (row['time'] + "," + row['station'] + "," + str(round(row['strahl'],3)), file=f)
+			print (row['time'] + "," + str(round(row['strahl'],3)), file=f)
+	
+	print ("Conversion complete. See output file")
+	
 	return 1
 	
 main()
