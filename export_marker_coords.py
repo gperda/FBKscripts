@@ -1,10 +1,15 @@
 import Metashape
+import numpy as np
 
 chunk = Metashape.app.document.chunk
 
-with open(r"C:\Users\admin\Downloads\test\out.txt", "w") as f:
+path = r"F:\eoptis\post_update_marker_coords.txt"
+
+with open(path, "w") as f:
+ print("Transformation matrix\n", np.array(chunk.transform.matrix), file=f)
  print("MARKER,X,Y,Z", file=f)
  for m in chunk.markers:
-  print("{},{},{},{}".format(m.label, m.position[0], m.position[1], m.position[2]), file=f)
+  t = chunk.transform.matrix.mulp(m.position)
+  print("{},{},{},{}".format(m.label, t[0], t[1], t[2]), file=f)
   
 f.close()
